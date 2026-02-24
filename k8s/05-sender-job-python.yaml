@@ -1,0 +1,70 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: message-sender
+  namespace: messaging-pipeline
+  labels:
+    app: sender
+    job: message-sender
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: sender
+          image: python:3.11-slim
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - |
+              echo "========================================="
+              echo "ЗАПУСК ОТПРАВКИ СООБЩЕНИЯ"
+              echo "========================================="
+              echo "Установка зависимостей..."
+              pip install nats-py
+              
+              echo "========================================="
+              echo "Отправка сообщения..."
+              echo "========================================="
+              
+              python3 -c '
+import asyncio
+import json
+import sys
+import time
+from nats.aio.client import Client as NATS
+
+async def send():
+    print("Подключение к NATS...")
+    for attempt in range(5):
+        try:
+            nc = NATS()
+            await nc.connect("nats://nats-service:4222")
+            print("Подключено к NATS")
+            
+            message = json.dumps({"message": "hello, world"})
+            print(f"Отправка: {message}")
+            await nc.publish("app1.input", message.encode())
+            await nc.flush()
+            await nc.close()
+            print("Сообщение отправлено в app1.input")
+            return True
+        except Exception as e:
+            print(f"Попытка {attempt + 1}/5: {e}")
+            if attempt < 4:
+                print("Повтор через 2 секунды...")
+                time.sleep(2)
+    return False
+
+success = asyncio.run(send())
+sys.exit(0 if success else 1)
+'
+              
+              if [ $? -eq 0 ]; then
+                echo "УСПЕХ! Сообщение отправлено"
+              else
+                echo "ОШИБКА! Сообщение не отправлено"
+                exit 1
+              fi
+      backoffLimit: 3

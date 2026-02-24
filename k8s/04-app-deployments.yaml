@@ -1,0 +1,135 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1
+  namespace: messaging-pipeline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+      component: app1
+  template:
+    metadata:
+      labels:
+        app: worker
+        component: app1
+    spec:
+      containers:
+        - name: app
+          image: messaging-app:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: APP_NAME
+              value: "App1"
+            - name: INPUT_SUBJECT
+              value: "app1.input"
+            - name: OUTPUT_SUBJECT
+              value: "app2.input"
+            - name: NATS_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: NATS_SERVERS
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app2
+  namespace: messaging-pipeline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+      component: app2
+  template:
+    metadata:
+      labels:
+        app: worker
+        component: app2
+    spec:
+      containers:
+        - name: app
+          image: messaging-app:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: APP_NAME
+              value: "App2"
+            - name: INPUT_SUBJECT
+              value: "app2.input"
+            - name: OUTPUT_SUBJECT
+              value: "app3.input"
+            - name: NATS_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: NATS_SERVERS
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app3
+  namespace: messaging-pipeline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+      component: app3
+  template:
+    metadata:
+      labels:
+        app: worker
+        component: app3
+    spec:
+      containers:
+        - name: app
+          image: messaging-app:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: APP_NAME
+              value: "App3"
+            - name: INPUT_SUBJECT
+              value: "app3.input"
+            - name: OUTPUT_SUBJECT
+              value: "app4.input"
+            - name: NATS_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: NATS_SERVERS
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app4
+  namespace: messaging-pipeline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+      component: app4
+  template:
+    metadata:
+      labels:
+        app: worker
+        component: app4
+    spec:
+      containers:
+        - name: app
+          image: messaging-app:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: APP_NAME
+              value: "App4"
+            - name: INPUT_SUBJECT
+              value: "app4.input"
+            - name: OUTPUT_SUBJECT
+              value: "app4.output"
+            - name: NATS_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: NATS_SERVERS

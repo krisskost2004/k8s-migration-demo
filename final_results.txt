@@ -1,0 +1,61 @@
+========================================
+РЕЗУЛЬТАТЫ ТЕСТИРОВАНИЯ
+Дата: Tue Feb 24 10:07:39 UTC 2026
+========================================
+
+ЛОГИ APP1:
+------------------------
+  File "/usr/local/lib/python3.11/socket.py", line 974, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+2026-02-24 09:32:14,911 - App1 - INFO - Connected to NATS at nats://nats-service:4222
+2026-02-24 09:32:14,911 - App1 - INFO - Subscribed to 'app1.input'
+2026-02-24 09:48:51,654 - App1 - INFO - [App1] Received a message on 'app1.input': {"message": "hello, world"}
+2026-02-24 09:48:51,655 - App1 - INFO - Processing complete for App1
+2026-02-24 09:48:51,655 - App1 - INFO - [App1] Forwarding message to 'app2.input'
+2026-02-24 09:48:51,655 - App1 - INFO - [App1] Message forwarded
+
+ЛОГИ APP2:
+------------------------
+  File "/usr/local/lib/python3.11/socket.py", line 974, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+2026-02-24 09:32:14,825 - App2 - INFO - Connected to NATS at nats://nats-service:4222
+2026-02-24 09:32:14,829 - App2 - INFO - Subscribed to 'app2.input'
+2026-02-24 09:48:51,657 - App2 - INFO - [App2] Received a message on 'app2.input': {"message": "hello, world"}
+2026-02-24 09:48:51,658 - App2 - INFO - Processing complete for App2
+2026-02-24 09:48:51,658 - App2 - INFO - [App2] Forwarding message to 'app3.input'
+2026-02-24 09:48:51,659 - App2 - INFO - [App2] Message forwarded
+
+ЛОГИ APP3:
+------------------------
+  File "/usr/local/lib/python3.11/socket.py", line 974, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+2026-02-24 09:32:14,825 - App3 - INFO - Connected to NATS at nats://nats-service:4222
+2026-02-24 09:32:14,826 - App3 - INFO - Subscribed to 'app3.input'
+2026-02-24 09:48:51,662 - App3 - INFO - [App3] Received a message on 'app3.input': {"message": "hello, world"}
+2026-02-24 09:48:51,662 - App3 - INFO - Processing complete for App3
+2026-02-24 09:48:51,662 - App3 - INFO - [App3] Forwarding message to 'app4.input'
+2026-02-24 09:48:51,662 - App3 - INFO - [App3] Message forwarded
+
+ЛОГИ APP4 (ФИНАЛЬНЫЙ):
+------------------------
+  File "/usr/local/lib/python3.11/socket.py", line 974, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+2026-02-24 09:32:14,800 - App4 - INFO - Connected to NATS at nats://nats-service:4222
+2026-02-24 09:32:14,801 - App4 - INFO - Subscribed to 'app4.input'
+2026-02-24 09:48:51,666 - App4 - INFO - [App4] Received a message on 'app4.input': {"message": "hello, world"}
+2026-02-24 09:48:51,666 - App4 - INFO - Processing complete for App4
+2026-02-24 09:48:51,667 - App4 - INFO - [App4] Forwarding message to 'app4.output'
+2026-02-24 09:48:51,668 - App4 - INFO - [App4] Message forwarded
+
+========================================
+СТАТУС: УСПЕШНО
+Все 4 микросервиса получили и обработали сообщение
+========================================

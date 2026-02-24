@@ -1,0 +1,30 @@
+# Временные файлы
+*.tmp
+*.log
+*.swp
+*.swo
+*~
+*.bak
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.python-version
+
+# Локальные скрипты
+temp-sender
+*.tar.gz
+*.zip
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Docker
+.dockerignore
+
+# Результаты тестирования (можно включить в репозиторий для демо)
+# final_results.txt - раскомментируйте если не хотите включать

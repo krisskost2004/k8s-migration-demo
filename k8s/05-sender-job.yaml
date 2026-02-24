@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: message-sender
+  namespace: messaging-pipeline
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: sender
+          image: nats:latest
+          command:
+            - sh
+            - -c
+            - |
+              echo 'Sending message to app1.input...'
+              nats pub app1.input '{"message": "hello, world"}' --server=nats-service:4222
