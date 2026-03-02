@@ -14,7 +14,7 @@
 6. Успешная обработка фиксируется в логах App4 и в топике `app4.output`
 ## Инструкция по запуску
 
-### 1. Поднять кластер
+### Поднять кластер
 
 ```bash
 # Запуск Minikube
@@ -35,5 +35,8 @@ kubectl get pods -n messaging-pipeline -w
 # Отправить первое сообщение
 kubectl apply -f k8s/05-sender-job-natsbox.yaml
 
-#Результат в логах пода app4
+# Результат в логах пода app4
 kubectl logs -n messaging-pipeline -l component=app4 --tail=20
+
+# Посмотреть результат
+cat final_results.txt
