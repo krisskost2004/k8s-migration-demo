@@ -20,9 +20,6 @@
 # Запуск Minikube
 minikube start --driver=docker --cpus=2 --memory=4096
 
-# Настроить окружение
-eval $(minikube docker-env)
-
 # Собрать образ приложения
 docker build -t messaging-app:latest .
 
